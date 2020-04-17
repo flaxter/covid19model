@@ -108,8 +108,10 @@ cmdstan <- function(stan_model,
     if(check_dirty) {
         cwd <- getwd()
         setwd(cmdstan)
-        system2("make", args=stan_model_bin, stdout=stdout, stderr=stderr)
+        status  <- system2("make", args=stan_model_bin, stdout=stdout, stderr=stderr)
         setwd(cwd)
+        if(status != 0)
+            stop("CmdStan cannot compile model.")
     }
     epaste <- function(name, arg, ...) {
         if(!is.null(arg))
